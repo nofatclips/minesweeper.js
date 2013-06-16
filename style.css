@@ -1,0 +1,50 @@
+/* Styles go here */
+
+* {
+	background-color: white;
+}
+
+td {
+	border: 1px solid black;
+	width: 18px;
+	height: 20px;
+	text-align: center;
+	border-radius: 3px;
+	background-color: gray
+}
+
+.hidden-cell:hover {
+	background-color: lightgray;
+}
+
+.revealed-cell {
+	background-color: white;
+}
+
+.bomb-cell {
+	background-color: red;
+}
+
+#minefield {
+	background-color: lightgray;
+}
+
+#control-panel {
+	margin-top: 5px;
+}
+
+button {
+	background-color: lightgray;
+}
+
+button:hover {
+	background-color: gray;
+}
+
+.display {
+	margin-top: 5px;
+}
+
+.display-text{
+	background-color: lightgray;
+}
