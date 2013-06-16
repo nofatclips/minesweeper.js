@@ -20,12 +20,12 @@ MineSweeper.ViewModel = function(width, height, mines) {
   var revealBombs = function() {
 	var mines = board.bombs();
     for (var i=0, l=mines.length; i<l; i++) {
-		//mineField.revealBomb(mines[i].x, mines[i].y);
+		mineField.revealBomb(mines[i].x, mines[i].y);
     }
   };
   
   var revealNum = function(row, column) {
-    //console.log(board.bombsAround(row, column));
+    mineField.revealNum(row, column, board.bombsAround(row, column));
   };
   
   return {

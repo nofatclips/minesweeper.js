@@ -1,23 +1,27 @@
 /* Styles go here */
 
 * {
-  background-color: white;
+	background-color: white;
 }
 
 td {
-  border: 1px solid black;
-  width: 14px;
-  height: 14px;
+	border: 1px solid black;
+	width: 14px;
+	height: 14px;
 }
 
 .hidden-cell {
-  background-color: gray;
+	background-color: gray;
 }
 
 .revealed-cell {
-  background-color: white;
+	background-color: white;
+}
+
+.bomb-cell {
+	background-color: red;
 }
 
 #minefield {
-  background-color: lightgray;
+	background-color: lightgray;
 }
