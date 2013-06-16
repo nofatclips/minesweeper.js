@@ -1,0 +1,23 @@
+/* Styles go here */
+
+* {
+  background-color: white;
+}
+
+td {
+  border: 1px solid black;
+  width: 14px;
+  height: 14px;
+}
+
+.hidden-cell {
+  background-color: gray;
+}
+
+.revealed-cell {
+  background-color: white;
+}
+
+#minefield {
+  background-color: lightgray;
+}
