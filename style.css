@@ -10,10 +10,11 @@ td {
 	height: 20px;
 	text-align: center;
 	border-radius: 3px;
+	background-color: gray
 }
 
-.hidden-cell {
-	background-color: gray;
+.hidden-cell:hover {
+	background-color: lightgray;
 }
 
 .revealed-cell {

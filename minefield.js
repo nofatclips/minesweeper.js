@@ -34,7 +34,9 @@ MineSweeper.MineFieldView = function($mineField) {
 	}
 	
 	var hideAllBombs = function() {
-		$(".bomb-cell").removeClass("bomb-cell");
+		$(".bomb-cell")
+			.removeClass("bomb-cell")
+			.addClass("hidden-cell");
 	}
 	
 	var getCellAtPosition = function(row, column) {
@@ -45,7 +47,8 @@ MineSweeper.MineFieldView = function($mineField) {
   return {
     init: initializeView,
 	revealNum: revealNumberOfBombsAround,
-	revealBomb: revealBombInCellAtPosition
+	revealBomb: revealBombInCellAtPosition,
+	hideBombs: hideAllBombs
   };
 
 };
