@@ -1,6 +1,7 @@
 MineSweeper.ControlPanelView = function($panel) {
 
 	var $display = $panel.find(".display-text");
+	var $level = $panel.find(".level-selector");
 
 	$("#restart-button").click(function() {
 		$panel.trigger("restart");
@@ -10,6 +11,10 @@ MineSweeper.ControlPanelView = function($panel) {
 	});
 	$("#reveal-button").click(function() {
 		$panel.trigger("reveal");
+	});
+	
+	$level.change(function(e) {
+		$panel.trigger("level", [$(this).val()]);
 	});
 	
 	var displayGameFailed = function() {
@@ -24,10 +29,15 @@ MineSweeper.ControlPanelView = function($panel) {
 		$display.text("Click on cell. Avoid bombs.");
 	}
 	
+	var difficultyLevel = function() {
+		return $level.val();
+	}
+	
 	return {
 		youLose: displayGameFailed,
 		youWin: displayGameSuccessful,
-		inProgress: displayGameInProgress
+		inProgress: displayGameInProgress,
+		level: difficultyLevel
 	};
 
 };

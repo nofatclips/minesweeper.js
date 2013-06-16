@@ -3,9 +3,9 @@ MineSweeper.MineFieldView = function($mineField) {
 	var initializeView = function(width, height) {
 		$mineField.empty();
 		var $tr, $td;
-		for (var i=0; i<width; i++) {
+		for (var i=0; i<height; i++) {
 			$tr = $("<tr>").addClass("row-" + i).appendTo($mineField);
-			for (var j=0; j<height; j++) {
+			for (var j=0; j<width; j++) {
 				$td = $("<td>")
 					.addClass("col-" + j)
 					.addClass("hidden-cell")

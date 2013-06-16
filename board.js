@@ -50,18 +50,18 @@ MineSweeper.Board = function(width, height, bombs) {
   
   var getSurroundingCells = function(row, column) {
     var ret = [];
-    var hasLeft   = row > 0,
-        hasRight  = row < (width-1),
-        hasTop    = column > 0,
-        hasBottom = column < (height-1);
-    if (hasLeft) ret.push(boardCells[row-1][column]);
+    var hasTop     = row > 0,
+        hasBottom  = row < (height-1),
+        hasLeft    = column > 0,
+        hasRight   = column < (width-1);
+    if (hasLeft) ret.push(boardCells[row][column-1]);
     if (hasLeft && hasTop) ret.push(boardCells[row-1][column-1]);
-    if (hasTop) ret.push(boardCells[row][column-1]);
-    if (hasTop && hasRight) ret.push(boardCells[row+1][column-1]);
-    if (hasRight) ret.push(boardCells[row+1][column]);
+    if (hasTop) ret.push(boardCells[row-1][column]);
+    if (hasTop && hasRight) ret.push(boardCells[row-1][column+1]);
+    if (hasRight) ret.push(boardCells[row][column+1]);
     if (hasRight && hasBottom) ret.push(boardCells[row+1][column+1]);
-    if (hasBottom) ret.push(boardCells[row][column+1]);
-    if (hasBottom && hasLeft) ret.push(boardCells[row-1][column+1]);
+    if (hasBottom) ret.push(boardCells[row+1][column]);
+    if (hasBottom && hasLeft) ret.push(boardCells[row+1][column-1]);
     return ret;
   };
   
@@ -73,6 +73,8 @@ MineSweeper.Board = function(width, height, bombs) {
   };
   
   var hasBombAtPosition = function(row, column) {
+	console.log(boardCells.length);
+	console.log(boardCells[0].length);
     return boardCells[row][column].hasBomb();
   };
   

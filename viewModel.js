@@ -1,10 +1,8 @@
 // Code goes here
 
-MineSweeper.ViewModel = function(width, height, mines) {
-  
-	width = width||MineSweeper.WIDTH;
-	height = height||MineSweeper.HEIGHT;
-	mines = mines||MineSweeper.BOMBS;
+MineSweeper.ViewModel = function() {
+	var width, height, mines;
+	var currentBoard;
 	var board = MineSweeper.Board(width, height, mines);
 	var $scope = $(MineSweeper.SCOPE);
 	var mineField = MineSweeper.MineFieldView($scope);
@@ -32,34 +30,48 @@ MineSweeper.ViewModel = function(width, height, mines) {
 	$panel.on("reveal", function() {
 		return (revealed) ? hideBombs() : revealBombs();
 	});
+	
+	$panel.on("level", function(event, level) {
+		currentBoard = level;
+	});
 
-	var init = function() {
-		board.init();
+	var getBoard = function(params) {
+		var params = MineSweeper[params] || params || MineSweeper[MineSweeper.DEFAULT];
+		console.log(params);
+		width = params.width;
+		height = params.height;
+		mines = params.bombs;
+		return MineSweeper.Board(width, height, mines);
+	};
+	
+	var init = function(level) {
+		currentBoard = controlPanel.level();
+		board = getBoard(currentBoard).init();
 		mineField.init(width, height);
 		gameInProgress = true;
 		revealed = false;
 		controlPanel.inProgress();
-	}
+	};
 	
 	var validation = function() {
 		return board.validate();
-	}
+	};
 	
 	var gameOver = function() {
 		gameInProgress = false;
 		controlPanel.youLose();
 		revealBombs();
-	}
+	};
 	
 	var victory = function() {
 		gameInProgress = false;
 		controlPanel.youWin();
-	}
+	};
 	
 	var hideBombs = function() {
 		mineField.hideBombs();
 		revealed = false;
-	}
+	};
   
 	var revealBombs = function() {
 		var mines = board.bombs();
