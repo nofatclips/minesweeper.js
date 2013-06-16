@@ -28,3 +28,23 @@ td {
 #minefield {
 	background-color: lightgray;
 }
+
+#control-panel {
+	margin-top: 5px;
+}
+
+button {
+	background-color: lightgray;
+}
+
+button:hover {
+	background-color: gray;
+}
+
+.display {
+	margin-top: 5px;
+}
+
+.display-text{
+	background-color: lightgray;
+}
