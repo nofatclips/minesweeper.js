@@ -1,6 +1,7 @@
 MineSweeper.MineFieldView = function($mineField) {
 
 	var initializeView = function(width, height) {
+		$mineField.empty();
 		var $tr, $td;
 		for (var i=0; i<width; i++) {
 			$tr = $("<tr>").addClass("row-" + i).appendTo($mineField);
@@ -14,8 +15,8 @@ MineSweeper.MineFieldView = function($mineField) {
 			}
 		}
 		$mineField.on("click", "td", function() {
-		  var coords = [$(this).data("row"), $(this).data("col")];
-		  $mineField.trigger("reveal-cell", coords);
+			var coords = [$(this).data("row"), $(this).data("col")];
+			$mineField.trigger("reveal-cell", coords);
 		});
 		return this; 
 	};

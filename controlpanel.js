@@ -2,18 +2,15 @@ MineSweeper.ControlPanelView = function($panel) {
 
 	var $display = $panel.find(".display-text");
 
-	var initializeView = function() {
-		$("#restart-button").click(function() {
-			$panel.trigger("restart");
-		});
-		$("#validate-button").click(function() {
-			$panel.trigger("validate");
-		});
-		$("#reveal-button").click(function() {
-			$panel.trigger("reveal");
-		});
-		return this;
-	};
+	$("#restart-button").click(function() {
+		$panel.trigger("restart");
+	});
+	$("#validate-button").click(function() {
+		$panel.trigger("validate");
+	});
+	$("#reveal-button").click(function() {
+		$panel.trigger("reveal");
+	});
 	
 	var displayGameFailed = function() {
 		$display.text("BOOM!!! Game Over!");
@@ -28,7 +25,6 @@ MineSweeper.ControlPanelView = function($panel) {
 	}
 	
 	return {
-		init: initializeView,
 		youLose: displayGameFailed,
 		youWin: displayGameSuccessful,
 		inProgress: displayGameInProgress
