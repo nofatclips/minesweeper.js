@@ -33,6 +33,10 @@ MineSweeper.MineFieldView = function($mineField) {
 			.text((num) ? num : "");
 	}
 	
+	var hideAllBombs = function() {
+		$(".bomb-cell").removeClass("bomb-cell");
+	}
+	
 	var getCellAtPosition = function(row, column) {
 		return $(".row-"+row+" .col-"+column);
 	}

@@ -84,6 +84,10 @@ MineSweeper.Board = function(width, height, bombs) {
     return arr[Math.floor(Math.random()*arr.length)];
   };
   
+  var exposeCellAtPosition = function(row, column) {
+	boardCells[row][column].expose();
+  }
+  
   return {
     width: width,
     height: height,
@@ -91,7 +95,9 @@ MineSweeper.Board = function(width, height, bombs) {
     init: initializeBoard,
     hasBomb: hasBombAtPosition,
     bombs: getAllBombs,
-    bombsAround: numBombsSurroundingPosition
+    bombsAround: numBombsSurroundingPosition,
+	cellsAround: getSurroundingCells,
+	expose: exposeCellAtPosition,
   };
   
 };

@@ -11,8 +11,9 @@ MineSweeper.ViewModel = function(width, height, mines) {
   var gameInProgress = true;
   
   scope.on("reveal-cell", function(event, x, y) {
+	if (!gameInProgress) return;
     if (board.hasBomb(x,y)) {
-      revealBombs();
+      gameOver();
     } else {
       revealNum(x,y);      
     }
@@ -31,8 +32,18 @@ MineSweeper.ViewModel = function(width, height, mines) {
 	};
   
 	var revealNum = function(row, column) {
+		board.expose(row, column);
 		var num = board.bombsAround(row, column);
 		mineField.revealNum(row, column, num);
+		if (num > 0) return;
+
+		var surroundingCells = board.cellsAround(row, column);
+		for (var i=0, l=surroundingCells.length; i<l; i++) {
+			var theCell = surroundingCells[i];
+			if (theCell.isHidden()) {
+				revealNum(theCell.x, theCell.y);
+			}
+		}
 	};
   
   return {

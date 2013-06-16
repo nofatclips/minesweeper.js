@@ -17,6 +17,10 @@ MineSweeper.Cell = function(rowIndex, columnIndex) {
   var isCellExposed = function() {
     return exposed;
   };
+
+  var isCellHidden = function() {
+    return !exposed;
+  };
   
   var hideBombInThisCell = function() {
     hidesSomeBomb = true;
@@ -52,6 +56,7 @@ MineSweeper.Cell = function(rowIndex, columnIndex) {
     expose: exposeCell,
     hide: hideCell,
     isExposed: isCellExposed,
+	isHidden: isCellHidden,
     getBombNum: getNumberOfSurroundingBombs,
     incBombNum: increaseNumberOfSurroundingBombs,
     hasBomb: isBombHiddenHere,
