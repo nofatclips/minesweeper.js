@@ -88,6 +88,13 @@ MineSweeper.Board = function(width, height, bombs) {
 	boardCells[row][column].expose();
   }
   
+  var validateAllFreeCellsExposed = function() {
+	for (var i=0, l=cellsNotContainingBomb.length; i<l; i++) {
+		if (cellsNotContainingBomb[i].isHidden()) return false;
+	}
+	return true;
+  }
+  
   return {
     width: width,
     height: height,
@@ -98,6 +105,7 @@ MineSweeper.Board = function(width, height, bombs) {
     bombsAround: numBombsSurroundingPosition,
 	cellsAround: getSurroundingCells,
 	expose: exposeCellAtPosition,
+	validate: validateAllFreeCellsExposed
   };
   
 };

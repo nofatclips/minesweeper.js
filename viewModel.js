@@ -27,16 +27,26 @@ MineSweeper.ViewModel = function(width, height, mines) {
 	});
   
 	$panel.on("validate", function() {
-		console.log("validate");
+		return (validation()) ? victory() : gameOver();
 	});
 
 	$panel.on("reveal", function() {
 		return (revealed) ? hideBombs() : revealBombs();
 	});
 
+	var validation = function() {
+		return board.validate();
+	}
+	
 	var gameOver = function() {
 		gameInProgress = false;
+		controlPanel.youLose();
 		revealBombs();
+	}
+	
+	var victory = function() {
+		gameInProgress = false;
+		controlPanel.youWin();
 	}
 	
 	var hideBombs = function() {
