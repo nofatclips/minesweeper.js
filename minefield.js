@@ -30,7 +30,7 @@ MineSweeper.MineFieldView = function($mineField) {
 		getCellAtPosition(row, column)
 			.removeClass("hidden-cell")
 			.addClass("revealed-cell")
-			.text(num);
+			.text((num) ? num : "");
 	}
 	
 	var getCellAtPosition = function(row, column) {
