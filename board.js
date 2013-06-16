@@ -31,13 +31,11 @@ MineSweeper.Board = function(width, height, bombs) {
       var cellWhereToDropTheBomb = getRandomElementFrom(cellsNotContainingBomb);
       deployBombIn(cellWhereToDropTheBomb);      
     }
-    return this;
+	return this;
   };
   
   var deployBombIn = function(cell) {
     cell.putBomb();
-    console.log(cell.hasBomb());
-    console.log(hasBombAtPosition(cell.x, cell.y));
     cellsContainingBomb.push(cell);
     cellsNotContainingBomb.splice(cellsNotContainingBomb.indexOf(cell), 1);
     var surroundingCells = getSurroundingCells(cell.x, cell.y);

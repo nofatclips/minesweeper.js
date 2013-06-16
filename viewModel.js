@@ -10,7 +10,6 @@ MineSweeper.ViewModel = function(width, height, mines) {
   var mineField = MineSweeper.MineFieldView(scope).init(width, height);
   
   scope.on("reveal-cell", function(event, x, y) {
-    console.log(board.bombs());
     if (board.hasBomb(x,y)) {
       revealBombs();
     } else {
@@ -19,8 +18,9 @@ MineSweeper.ViewModel = function(width, height, mines) {
   });
   
   var revealBombs = function() {
-    for (var i=0, l=board.bombs.length; i<l; i++) {
-      alert(board.bombs()[i]);
+	var mines = board.bombs();
+    for (var i=0, l=mines.length; i<l; i++) {
+		//mineField.revealBomb(mines[i].x, mines[i].y);
     }
   };
   
