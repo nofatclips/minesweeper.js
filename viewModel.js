@@ -11,13 +11,18 @@ MineSweeper.ViewModel = function() {
 	var gameInProgress, revealed;
   
 	$scope.on("reveal-cell", function(event, x, y) {
-		if (!gameInProgress) return;
+		if (!gameInProgress || isBlocked(x, y)) return;
 		if (board.hasBomb(x,y)) {
 			gameOver();
 		} else {
-			revealNum(x,y);      
+			revealNum(x,y);
 		}
 	});
+    
+    $scope.on("block-cell", function(event, x, y) {
+        if (!gameInProgress || isExposed(x, y)) return;
+        blockCell(x,y);
+    });
   
 	$panel.on("restart", function() {
 		init();
@@ -95,6 +100,19 @@ MineSweeper.ViewModel = function() {
 			}
 		}
 	};
+    
+    var blockCell = function(row, column) {
+        board.toggleBlock(row, column);
+        mineField.showAsBlocked(row, column);
+    }
+    
+    var isBlocked = function(row, column) {
+        return board.isBlocked(row, column);
+    }
+    
+    var isExposed = function(row, column) {
+        return board.isExposed(row, column);
+    }
   
   return {
     width: width,

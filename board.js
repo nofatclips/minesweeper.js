@@ -90,6 +90,18 @@ MineSweeper.Board = function(width, height, bombs) {
 	boardCells[row][column].expose();
   }
   
+  var isExposedCellAtPosition = function(row, column) {
+    return boardCells[row][column].isExposed();
+  }
+  
+  var toggleBlockCellAtPosition = function(row, column) {
+    boardCells[row][column].toggleBlock()
+  }
+  
+  var isBlockedCellAtPosition = function(row, column) {
+    return boardCells[row][column].isBlocked();
+  }
+  
   var validateAllFreeCellsExposed = function() {
 	for (var i=0, l=cellsNotContainingBomb.length; i<l; i++) {
 		if (cellsNotContainingBomb[i].isHidden()) return false;
@@ -107,7 +119,10 @@ MineSweeper.Board = function(width, height, bombs) {
     bombsAround: numBombsSurroundingPosition,
 	cellsAround: getSurroundingCells,
 	expose: exposeCellAtPosition,
-	validate: validateAllFreeCellsExposed
+    isExposed: isExposedCellAtPosition,
+	validate: validateAllFreeCellsExposed,
+    toggleBlock: toggleBlockCellAtPosition,
+    isBlocked: isBlockedCellAtPosition
   };
   
 };
