@@ -1,5 +1,16 @@
 MineSweeper.MineFieldView = function($mineField) {
 
+    $mineField.on("contextmenu",function(e){
+        return false;
+    }).on("mousedown", "td", function(event) {
+        var coords = [$(this).data("row"), $(this).data("col")];
+        if (event.which === 1) { // Left click
+            $mineField.trigger("reveal-cell", coords);
+        } else if (event.which === 3) { // Right click
+            $mineField.trigger("block-cell", coords);
+        }
+    });
+
 	var initializeView = function(width, height) {
 		$mineField.empty();
 		var $tr, $td;
@@ -15,16 +26,6 @@ MineSweeper.MineFieldView = function($mineField) {
 			}
 		}
         
-        $mineField.on("contextmenu",function(e){
-            return false;
-        }).on("mousedown", "td", function(event) {
-            var coords = [$(this).data("row"), $(this).data("col")];
-            if (event.which === 1) { // Left click
-                $mineField.trigger("reveal-cell", coords);
-            } else if (event.which === 3) { // Right click
-                $mineField.trigger("block-cell", coords);
-            }
-        });
 		return this; 
 	};
   
