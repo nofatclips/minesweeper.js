@@ -88,6 +88,7 @@ MineSweeper.ViewModel = function() {
   
 	var revealNum = function(row, column) {
 		board.expose(row, column);
+        if (!board.isExposed(row, column)) return;
 		var num = board.bombsAround(row, column);
 		mineField.revealNum(row, column, num);
 		if (num > 0) return;

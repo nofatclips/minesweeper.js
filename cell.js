@@ -6,7 +6,7 @@ MineSweeper.Cell = function(rowIndex, columnIndex) {
   var blocked = false;
   
   var exposeCell = function() {
-    exposed = true;
+    if (!isThisCellBlocked()) exposed = true;
     return this;
   };
   
