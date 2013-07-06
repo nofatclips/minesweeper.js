@@ -6,11 +6,6 @@
 
 h1 a {
 	text-decoration: none;
-	color: black;
-}
-
-h1 a:hover{
-	color: blue;
 }
 
 td {
@@ -32,6 +27,10 @@ td {
 
 .bomb-cell {
 	background-color: red;
+}
+
+.blocked-cell {
+    background-color: green;
 }
 
 #minefield {
