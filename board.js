@@ -2,7 +2,7 @@ MineSweeper.Board = function(width, height, bombs) {
   
   var boardCells = []; // Cells arranged as a 2D matrix
   var cellsNotContainingBomb = []; // Cells arranged in a vector
-  var cellsContainingBomb = [];
+  var cellsContainingBomb = []; // The rest of the cells
   
   var buildBoard = function() {
     for (var i=0; i<height; i++) {
