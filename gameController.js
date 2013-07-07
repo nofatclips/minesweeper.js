@@ -21,6 +21,10 @@ MineSweeper.ViewModel = function() {
     $scope.on("free-cell", function(event, x, y) {
         freeCell(x,y);
     });
+    
+    $scope.on("highlight-cell", function(event, x, y) {
+        highlightCell(x,y);
+    });
   
 	$panel.on("restart", function() {
 		init();
@@ -125,6 +129,12 @@ MineSweeper.ViewModel = function() {
                 checkCell(cell.x, cell.y);
             });
         }
+    }
+
+    var highlightCell = function(row, column) {
+        board.cellsAround(row, column).forEach(function(cell) {
+            mineField.highlightCell(cell.x, cell.y);
+        });
     }
     
     var isBlocked = function(row, column) {

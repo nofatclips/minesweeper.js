@@ -6,8 +6,8 @@ MineSweeper.MineFieldView = function($mineField) {
         var coords = [$(this).data("row"), $(this).data("col")];
         if (event.which === 1) { // Left click
             $(this).addClass("highlight-cell");
-            //$mineField.trigger("reveal-cell", coords);            
         } else if (event.which === 2) { // Middle click
+            $mineField.trigger("highlight-cell", coords);
             //$mineField.trigger("free-cell", coords);
         } else if (event.which === 3) { // Right click
             $mineField.trigger("block-cell", coords);
@@ -36,7 +36,6 @@ MineSweeper.MineFieldView = function($mineField) {
 					.appendTo($tr);
 			}
 		}
-        
 		return this; 
 	};
   
@@ -45,6 +44,11 @@ MineSweeper.MineFieldView = function($mineField) {
 			.removeClass("hidden-cell")
 			.addClass("bomb-cell");
 	};
+    
+    var highlightCellAtPosition = function(row, column) {
+        getCellAtPosition(row, column)
+            .addClass("highlight-cell");
+    }
 
 	var toggleBlockCellAtPosition = function(row, column) {
 		getCellAtPosition(row, column)
@@ -75,7 +79,8 @@ MineSweeper.MineFieldView = function($mineField) {
 	revealNum: revealNumberOfBombsAround,
 	revealBomb: revealBombInCellAtPosition,
 	hideBombs: hideAllBombs,
-    showAsBlocked: toggleBlockCellAtPosition
+    showAsBlocked: toggleBlockCellAtPosition,
+    highlightCell: highlightCellAtPosition
   };
 
 };
