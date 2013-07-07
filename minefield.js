@@ -49,6 +49,16 @@ MineSweeper.MineFieldView = function($mineField) {
         getCellAtPosition(row, column)
             .addClass("highlight-cell");
     }
+    
+    var alarmCellAtPosition = function(row, column) {
+        $cell = getCellAtPosition(row, column);
+        $cell.addClass("alarm-cell")
+            .delay(500)
+            .queue(function() {
+                $cell.removeClass("alarm-cell");
+                $cell.dequeue();
+            });
+    }
 
 	var toggleBlockCellAtPosition = function(row, column) {
 		getCellAtPosition(row, column)
@@ -80,7 +90,8 @@ MineSweeper.MineFieldView = function($mineField) {
 	revealBomb: revealBombInCellAtPosition,
 	hideBombs: hideAllBombs,
     showAsBlocked: toggleBlockCellAtPosition,
-    highlightCell: highlightCellAtPosition
+    highlightCell: highlightCellAtPosition,
+    alarmCell: alarmCellAtPosition
   };
 
 };

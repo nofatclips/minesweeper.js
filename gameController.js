@@ -116,6 +116,8 @@ MineSweeper.ViewModel = function() {
             cells.forEach(function(cell) {
                 checkCell(cell.x, cell.y);
             });
+        } else {
+            mineField.alarmCell(row, column);
         }
     }
 

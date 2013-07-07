@@ -37,6 +37,11 @@ td {
     opacity: 0.6;
 }
 
+.alarm-cell {
+    color: red;
+    font-weight: bold;
+}
+
 #minefield {
 	background-color: lightgray;
 }
