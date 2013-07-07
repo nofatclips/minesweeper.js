@@ -5,6 +5,7 @@ MineSweeper.MineFieldView = function($mineField) {
     }).on("mousedown", "td", function(event) {
         var coords = [$(this).data("row"), $(this).data("col")];
         if (event.which === 1) { // Left click
+            $(this).addClass("highlight-cell");
             //$mineField.trigger("reveal-cell", coords);            
         } else if (event.which === 2) { // Middle click
             //$mineField.trigger("free-cell", coords);
@@ -12,6 +13,7 @@ MineSweeper.MineFieldView = function($mineField) {
             $mineField.trigger("block-cell", coords);
         }
     }).on("mouseup", "td", function(event) {
+        $mineField.find(".highlight-cell").removeClass("highlight-cell");
         var coords = [$(this).data("row"), $(this).data("col")];
         if (event.which === 1) { // Left click
             $mineField.trigger("reveal-cell", coords);            

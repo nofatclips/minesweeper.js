@@ -104,9 +104,7 @@ MineSweeper.ViewModel = function() {
         if (!gameInProgress || isBlocked(row, column)) return;
         if (board.hasBomb(row, column)) {
 			gameOver();
-            //alert("here");
 		} else {
-            //alert("there");
 			revealNum(row, column);
 		}
     }
@@ -121,11 +119,12 @@ MineSweeper.ViewModel = function() {
         if (!gameInProgress || !isExposed(row, column)) return;
         var numBombs = board.bombsAround(row, column);
         var numBlocked = board.blockedAround(row, column);
-        if (numBombs !== numBlocked) return;
-        
-        board.cellsAround(row, column).forEach(function(cell) {
-            checkCell(cell.x, cell.y);
-        });
+        var cells = board.cellsAround(row, column);
+        if (numBombs === numBlocked) {
+            cells.forEach(function(cell) {
+                checkCell(cell.x, cell.y);
+            });
+        }
     }
     
     var isBlocked = function(row, column) {
@@ -136,11 +135,11 @@ MineSweeper.ViewModel = function() {
         return board.isExposed(row, column);
     }
   
-  return {
-    width: width,
-    height: height,
-    mines: mines,
-	init: init
-  };
+    return {
+        width: width,
+        height: height,
+        mines: mines,
+        init: init
+    };
   
 }().init();
