@@ -33,6 +33,15 @@ td {
     background-color: green;
 }
 
+.highlight-cell {
+    opacity: 0.6;
+}
+
+.alarm-cell {
+    color: red;
+    font-weight: bold;
+}
+
 #minefield {
 	background-color: lightgray;
 }

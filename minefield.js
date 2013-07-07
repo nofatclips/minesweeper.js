@@ -5,9 +5,20 @@ MineSweeper.MineFieldView = function($mineField) {
     }).on("mousedown", "td", function(event) {
         var coords = [$(this).data("row"), $(this).data("col")];
         if (event.which === 1) { // Left click
-            $mineField.trigger("reveal-cell", coords);
+            $(this).addClass("highlight-cell");
+        } else if (event.which === 2) { // Middle click
+            $mineField.trigger("highlight-cell", coords);
+            //$mineField.trigger("free-cell", coords);
         } else if (event.which === 3) { // Right click
             $mineField.trigger("block-cell", coords);
+        }
+    }).on("mouseup", "td", function(event) {
+        $mineField.find(".highlight-cell").removeClass("highlight-cell");
+        var coords = [$(this).data("row"), $(this).data("col")];
+        if (event.which === 1) { // Left click
+            $mineField.trigger("reveal-cell", coords);            
+        } else if (event.which === 2) { // Middle click
+            $mineField.trigger("free-cell", coords);
         }
     });
 
@@ -25,7 +36,6 @@ MineSweeper.MineFieldView = function($mineField) {
 					.appendTo($tr);
 			}
 		}
-        
 		return this; 
 	};
   
@@ -34,6 +44,21 @@ MineSweeper.MineFieldView = function($mineField) {
 			.removeClass("hidden-cell")
 			.addClass("bomb-cell");
 	};
+    
+    var highlightCellAtPosition = function(row, column) {
+        getCellAtPosition(row, column)
+            .addClass("highlight-cell");
+    }
+    
+    var alarmCellAtPosition = function(row, column) {
+        $cell = getCellAtPosition(row, column);
+        $cell.addClass("alarm-cell")
+            .delay(500)
+            .queue(function() {
+                $cell.removeClass("alarm-cell");
+                $cell.dequeue();
+            });
+    }
 
 	var toggleBlockCellAtPosition = function(row, column) {
 		getCellAtPosition(row, column)
@@ -64,7 +89,9 @@ MineSweeper.MineFieldView = function($mineField) {
 	revealNum: revealNumberOfBombsAround,
 	revealBomb: revealBombInCellAtPosition,
 	hideBombs: hideAllBombs,
-    showAsBlocked: toggleBlockCellAtPosition
+    showAsBlocked: toggleBlockCellAtPosition,
+    highlightCell: highlightCellAtPosition,
+    alarmCell: alarmCellAtPosition
   };
 
 };

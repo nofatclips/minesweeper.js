@@ -10,33 +10,23 @@ MineSweeper.ViewModel = function() {
 	var controlPanel = MineSweeper.ControlPanelView($panel);
 	var gameInProgress, revealed;
   
-	$scope.on("reveal-cell", function(event, x, y) {
-		if (!gameInProgress || isBlocked(x, y)) return;
-		if (board.hasBomb(x,y)) {
-			gameOver();
-		} else {
-			revealNum(x,y);
-		}
-	});
-    
-    $scope.on("block-cell", function(event, x, y) {
-        if (!gameInProgress || isExposed(x, y)) return;
+	$scope.on("reveal-cell", function(event, x, y) {		
+        checkCell(x,y);
+	}).on("block-cell", function(event, x, y) {
         blockCell(x,y);
+    }).on("free-cell", function(event, x, y) {
+        freeCell(x,y);
+    }).on("highlight-cell", function(event, x, y) {
+        highlightCell(x,y);
     });
   
 	$panel.on("restart", function() {
 		init();
-	});
-  
-	$panel.on("validate", function() {
+	}).on("validate", function() {
 		return (validation()) ? victory() : gameOver();
-	});
-
-	$panel.on("reveal", function() {
+	}).on("reveal", function() {
 		return (revealed) ? hideBombs() : revealBombs();
-	});
-	
-	$panel.on("level", function(event, level) {
+	}).on("level", function(event, level) {
 		currentBoard = level;
 	});
 
@@ -88,7 +78,7 @@ MineSweeper.ViewModel = function() {
   
 	var revealNum = function(row, column) {
 		board.expose(row, column);
-        if (!board.isExposed(row, column)) return;
+        if (!isExposed(row, column)) return;
 		var num = board.bombsAround(row, column);
 		mineField.revealNum(row, column, num);
 		if (num > 0) return;
@@ -101,10 +91,42 @@ MineSweeper.ViewModel = function() {
 			}
 		}
 	};
+
+    var checkCell = function(row, column) {
+        if (!gameInProgress || isBlocked(row, column)) return;
+        if (board.hasBomb(row, column)) {
+			gameOver();
+		} else {
+			revealNum(row, column);
+		}
+    }
     
     var blockCell = function(row, column) {
+        if (!gameInProgress || isExposed(row, column)) return;
         board.toggleBlock(row, column);
         mineField.showAsBlocked(row, column);
+    }
+    
+    var freeCell = function(row, column) {
+        if (!gameInProgress || !isExposed(row, column)) return;
+        var numBombs = board.bombsAround(row, column);
+        var numBlocked = board.blockedAround(row, column);
+        var cells = board.cellsAround(row, column);
+        if (numBombs === numBlocked) {
+            cells.forEach(function(cell) {
+                checkCell(cell.x, cell.y);
+            });
+        } else {
+            mineField.alarmCell(row, column);
+        }
+    }
+
+    var highlightCell = function(row, column) {
+        board.cellsAround(row, column).filter(function(cell) {
+            return !(cell.isExposed() || cell.isBlocked());
+        }).forEach(function(cell) {
+            mineField.highlightCell(cell.x, cell.y);
+        });
     }
     
     var isBlocked = function(row, column) {
@@ -115,11 +137,11 @@ MineSweeper.ViewModel = function() {
         return board.isExposed(row, column);
     }
   
-  return {
-    width: width,
-    height: height,
-    mines: mines,
-	init: init
-  };
+    return {
+        width: width,
+        height: height,
+        mines: mines,
+        init: init
+    };
   
 }().init();
