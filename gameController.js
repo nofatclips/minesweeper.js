@@ -10,18 +10,16 @@ MineSweeper.ViewModel = function() {
 	var controlPanel = MineSweeper.ControlPanelView($panel);
 	var gameInProgress, revealed;
   
-	$scope.on("reveal-cell", function(event, x, y) {
-		if (!gameInProgress || isBlocked(x, y)) return;
-		if (board.hasBomb(x,y)) {
-			gameOver();
-		} else {
-			revealNum(x,y);
-		}
+	$scope.on("reveal-cell", function(event, x, y) {		
+        checkCell(x,y);
 	});
     
     $scope.on("block-cell", function(event, x, y) {
-        if (!gameInProgress || isExposed(x, y)) return;
         blockCell(x,y);
+    });
+    
+    $scope.on("free-cell", function(event, x, y) {
+        freeCell(x,y);
     });
   
 	$panel.on("restart", function() {
@@ -88,7 +86,7 @@ MineSweeper.ViewModel = function() {
   
 	var revealNum = function(row, column) {
 		board.expose(row, column);
-        if (!board.isExposed(row, column)) return;
+        if (!isExposed(row, column)) return;
 		var num = board.bombsAround(row, column);
 		mineField.revealNum(row, column, num);
 		if (num > 0) return;
@@ -101,10 +99,33 @@ MineSweeper.ViewModel = function() {
 			}
 		}
 	};
+
+    var checkCell = function(row, column) {
+        if (!gameInProgress || isBlocked(row, column)) return;
+        if (board.hasBomb(row, column)) {
+			gameOver();
+            //alert("here");
+		} else {
+            //alert("there");
+			revealNum(row, column);
+		}
+    }
     
     var blockCell = function(row, column) {
+        if (!gameInProgress || isExposed(row, column)) return;
         board.toggleBlock(row, column);
         mineField.showAsBlocked(row, column);
+    }
+    
+    var freeCell = function(row, column) {
+        if (!gameInProgress || !isExposed(row, column)) return;
+        var numBombs = board.bombsAround(row, column);
+        var numBlocked = board.blockedAround(row, column);
+        if (numBombs !== numBlocked) return;
+        
+        board.cellsAround(row, column).forEach(function(cell) {
+            checkCell(cell.x, cell.y);
+        });
     }
     
     var isBlocked = function(row, column) {

@@ -5,7 +5,9 @@ MineSweeper.MineFieldView = function($mineField) {
     }).on("mousedown", "td", function(event) {
         var coords = [$(this).data("row"), $(this).data("col")];
         if (event.which === 1) { // Left click
-            $mineField.trigger("reveal-cell", coords);
+            $mineField.trigger("reveal-cell", coords);            
+        } else if (event.which === 2) { // Middle click
+            $mineField.trigger("free-cell", coords);
         } else if (event.which === 3) { // Right click
             $mineField.trigger("block-cell", coords);
         }

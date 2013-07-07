@@ -82,6 +82,12 @@ MineSweeper.Board = function(width, height, bombs) {
     return boardCells[row][column].getBombNum();
   };
   
+  var numBlockedCellsSurrooundingPosition = function(row, column) {
+    return getSurroundingCells(row, column).filter(function(cell) {
+        return cell.isBlocked();
+    }).length;
+  }
+  
   var getRandomElementFrom = function(arr) {
     return arr[Math.floor(Math.random()*arr.length)];
   };
@@ -117,6 +123,7 @@ MineSweeper.Board = function(width, height, bombs) {
     hasBomb: hasBombAtPosition,
     bombs: getAllBombs,
     bombsAround: numBombsSurroundingPosition,
+    blockedAround: numBlockedCellsSurrooundingPosition,
 	cellsAround: getSurroundingCells,
 	expose: exposeCellAtPosition,
     isExposed: isExposedCellAtPosition,
