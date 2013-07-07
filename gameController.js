@@ -12,33 +12,21 @@ MineSweeper.ViewModel = function() {
   
 	$scope.on("reveal-cell", function(event, x, y) {		
         checkCell(x,y);
-	});
-    
-    $scope.on("block-cell", function(event, x, y) {
+	}).on("block-cell", function(event, x, y) {
         blockCell(x,y);
-    });
-    
-    $scope.on("free-cell", function(event, x, y) {
+    }).on("free-cell", function(event, x, y) {
         freeCell(x,y);
-    });
-    
-    $scope.on("highlight-cell", function(event, x, y) {
+    }).on("highlight-cell", function(event, x, y) {
         highlightCell(x,y);
     });
   
 	$panel.on("restart", function() {
 		init();
-	});
-  
-	$panel.on("validate", function() {
+	}).on("validate", function() {
 		return (validation()) ? victory() : gameOver();
-	});
-
-	$panel.on("reveal", function() {
+	}).on("reveal", function() {
 		return (revealed) ? hideBombs() : revealBombs();
-	});
-	
-	$panel.on("level", function(event, level) {
+	}).on("level", function(event, level) {
 		currentBoard = level;
 	});
 
