@@ -122,7 +122,9 @@ MineSweeper.ViewModel = function() {
     }
 
     var highlightCell = function(row, column) {
-        board.cellsAround(row, column).forEach(function(cell) {
+        board.cellsAround(row, column).filter(function(cell) {
+            return !(cell.isExposed() || cell.isBlocked());
+        }).forEach(function(cell) {
             mineField.highlightCell(cell.x, cell.y);
         });
     }
