@@ -94,11 +94,17 @@ MineSweeper.ViewModel = function() {
 
     var checkCell = function(row, column) {
         if (!gameInProgress || isBlocked(row, column)) return;
-        if (board.hasBomb(row, column)) {
-			gameOver();
-		} else {
-			revealNum(row, column);
+        if (!board.hasBomb(row, column)) {
+            revealNum(row, column);
+            return;
 		}
+        // It's game over dude, unless...
+        if (board.atLeastOneCell()) {
+            gameOver();
+        }
+        // this is the first move: then it's your lucky day.
+        init();
+        checkCell(row, column); // Theoretically, this could go on forever
     }
     
     var blockCell = function(row, column) {
