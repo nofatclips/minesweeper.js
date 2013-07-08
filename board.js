@@ -3,6 +3,7 @@ MineSweeper.Board = function(width, height, bombs) {
   var boardCells = []; // Cells arranged as a 2D matrix
   var cellsNotContainingBomb = []; // Cells arranged in a vector
   var cellsContainingBomb = []; // The rest of the cells
+  var atLeastOneCellRevealed = false;
   
   var buildBoard = function() {
     for (var i=0; i<height; i++) {
@@ -22,6 +23,7 @@ MineSweeper.Board = function(width, height, bombs) {
         cellsNotContainingBomb.push(boardCells[i][j]);
       }
     }
+    atLeastOneCellRevealed = false;
     return this;
   };
   
@@ -94,6 +96,9 @@ MineSweeper.Board = function(width, height, bombs) {
   
   var exposeCellAtPosition = function(row, column) {
 	boardCells[row][column].expose();
+    if (boardCells[row][column].isExposed()) {
+        atLeastOneCellRevealed = true;
+    }
   }
   
   var isExposedCellAtPosition = function(row, column) {
@@ -115,6 +120,10 @@ MineSweeper.Board = function(width, height, bombs) {
 	return true;
   }
   
+  var isAtLeastOneCellExposed = function() {
+    return atLeastOneCellRevealed;
+  }
+  
   return {
     width: width,
     height: height,
@@ -129,7 +138,8 @@ MineSweeper.Board = function(width, height, bombs) {
     isExposed: isExposedCellAtPosition,
 	validate: validateAllFreeCellsExposed,
     toggleBlock: toggleBlockCellAtPosition,
-    isBlocked: isBlockedCellAtPosition
+    isBlocked: isBlockedCellAtPosition,
+    atLeastOneCell: isAtLeastOneCellExposed
   };
   
 };
