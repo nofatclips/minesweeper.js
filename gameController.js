@@ -97,11 +97,8 @@ MineSweeper.ViewModel = function() {
         if (!gameInProgress || isBlocked(row, column)) return;
         if (!board.hasBomb(row, column)) {
             revealNum(row, column);
-            console.log(board.hiddenCells() + " . " + board.numBombs);
             if (board.hiddenCells() === board.numBombs) {
                 endGame();
-            } else {
-                console.log("no");
             }
             return;
 		}
