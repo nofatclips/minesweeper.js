@@ -1,5 +1,3 @@
-// Code goes here
-
 MineSweeper.ViewModel = function() {
 	var width, height, mines;
 	var currentBoard;
@@ -23,7 +21,7 @@ MineSweeper.ViewModel = function() {
 	$panel.on("restart", function() {
 		init();
 	}).on("validate", function() {
-		return (validation()) ? victory() : gameOver();
+		endGame();
 	}).on("reveal", function() {
 		return (revealed) ? hideBombs() : revealBombs();
 	}).on("level", function(event, level) {
@@ -32,7 +30,6 @@ MineSweeper.ViewModel = function() {
 
 	var getBoard = function(params) {
 		var params = MineSweeper[params] || params || MineSweeper[MineSweeper.DEFAULT];
-		console.log(params);
 		width = params.width;
 		height = params.height;
 		mines = params.bombs;
@@ -51,6 +48,10 @@ MineSweeper.ViewModel = function() {
 	var validation = function() {
 		return board.validate();
 	};
+    
+    var endGame = function() {
+        return (validation()) ? victory() : gameOver();
+    }
 	
 	var gameOver = function() {
 		gameInProgress = false;
@@ -95,7 +96,14 @@ MineSweeper.ViewModel = function() {
     var checkCell = function(row, column) {
         if (!gameInProgress || isBlocked(row, column)) return;
         if (!board.hasBomb(row, column)) {
-            return revealNum(row, column);
+            revealNum(row, column);
+            console.log(board.hiddenCells() + " . " + board.numBombs);
+            if (board.hiddenCells() === board.numBombs) {
+                endGame();
+            } else {
+                console.log("no");
+            }
+            return;
 		}
         // It's game over dude, unless...
         if (board.atLeastOneCell()) {
