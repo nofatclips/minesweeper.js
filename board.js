@@ -4,6 +4,7 @@ MineSweeper.Board = function(width, height, bombs) {
   var cellsNotContainingBomb = []; // Cells arranged in a vector
   var cellsContainingBomb = []; // The rest of the cells
   var atLeastOneCellRevealed = false;
+  var blockedCells = 0;
   
   var buildBoard = function() {
     for (var i=0; i<height; i++) {
@@ -24,6 +25,7 @@ MineSweeper.Board = function(width, height, bombs) {
       }
     }
     atLeastOneCellRevealed = false;
+    blockedCells = 0;
     return this;
   };
   
@@ -75,8 +77,6 @@ MineSweeper.Board = function(width, height, bombs) {
   };
   
   var hasBombAtPosition = function(row, column) {
-	console.log(boardCells.length);
-	console.log(boardCells[0].length);
     return boardCells[row][column].hasBomb();
   };
   
@@ -106,7 +106,15 @@ MineSweeper.Board = function(width, height, bombs) {
   }
   
   var toggleBlockCellAtPosition = function(row, column) {
-    boardCells[row][column].toggleBlock()
+    var wasBlocked = isBlockedCellAtPosition(row, column);
+    boardCells[row][column].toggleBlock();
+    var nowIsBlocked = isBlockedCellAtPosition(row, column);
+    if (wasBlocked && !nowIsBlocked) blockedCells--;
+    if (!wasBlocked && nowIsBlocked) blockedCells++;
+  }
+  
+  var howManyCellsAreBlocked = function() {
+    return blockedCells;
   }
   
   var isBlockedCellAtPosition = function(row, column) {
@@ -139,7 +147,8 @@ MineSweeper.Board = function(width, height, bombs) {
 	validate: validateAllFreeCellsExposed,
     toggleBlock: toggleBlockCellAtPosition,
     isBlocked: isBlockedCellAtPosition,
-    atLeastOneCell: isAtLeastOneCellExposed
+    atLeastOneCell: isAtLeastOneCellExposed,
+    blockedCells: howManyCellsAreBlocked
   };
   
 };

@@ -1,5 +1,3 @@
-// Code goes here
-
 MineSweeper.ViewModel = function() {
 	var width, height, mines;
 	var currentBoard;
@@ -32,7 +30,6 @@ MineSweeper.ViewModel = function() {
 
 	var getBoard = function(params) {
 		var params = MineSweeper[params] || params || MineSweeper[MineSweeper.DEFAULT];
-		console.log(params);
 		width = params.width;
 		height = params.height;
 		mines = params.bombs;
