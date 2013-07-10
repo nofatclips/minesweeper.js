@@ -2,6 +2,7 @@ MineSweeper.MineFieldView = function($mineField) {
 
     var leftButtonDown = false;
     var rightButtonDown = false;
+    var animationEnd = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
 
     $mineField.on("contextmenu",function(e){
         return false;
@@ -74,12 +75,15 @@ MineSweeper.MineFieldView = function($mineField) {
     
     var alarmCellAtPosition = function(row, column) {
         $cell = getCellAtPosition(row, column);
-        $cell.addClass("alarm-cell")
-            .delay(500)
+        $cell.addClass("alarm-cell").one(animationEnd, function(e) {
+            $cell.removeClass("alarm-cell");
+        });
+/*            .delay(5000)
             .queue(function() {
                 $cell.removeClass("alarm-cell");
                 $cell.dequeue();
             });
+*/
     }
 
 	var toggleBlockCellAtPosition = function(row, column) {
