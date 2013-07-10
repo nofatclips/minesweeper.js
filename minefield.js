@@ -1,24 +1,46 @@
 MineSweeper.MineFieldView = function($mineField) {
 
+    var leftButtonDown = false;
+    var rightButtonDown = false;
+
     $mineField.on("contextmenu",function(e){
         return false;
     }).on("mousedown", "td", function(event) {
         var coords = [$(this).data("row"), $(this).data("col")];
         if (event.which === 1) { // Left click
-            $(this).addClass("highlight-cell");
+            leftButtonDown = true;
+            if (rightButtonDown) {
+                $mineField.trigger("highlight-cell", coords);
+            } else {
+                $(this).addClass("highlight-cell");
+            }
         } else if (event.which === 2) { // Middle click
             $mineField.trigger("highlight-cell", coords);
-            //$mineField.trigger("free-cell", coords);
         } else if (event.which === 3) { // Right click
-            $mineField.trigger("block-cell", coords);
+            rightButtonDown = true;
+            if (leftButtonDown) {
+                $mineField.trigger("highlight-cell", coords);
+            } else {
+                $mineField.trigger("block-cell", coords);
+            }
         }
     }).on("mouseup", "td", function(event) {
         $mineField.find(".highlight-cell").removeClass("highlight-cell");
         var coords = [$(this).data("row"), $(this).data("col")];
         if (event.which === 1) { // Left click
-            $mineField.trigger("reveal-cell", coords);            
+            leftButtonDown = false;
+            if (rightButtonDown) {
+                $mineField.trigger("free-cell", coords);
+            } else {
+                $mineField.trigger("reveal-cell", coords);
+            }
         } else if (event.which === 2) { // Middle click
             $mineField.trigger("free-cell", coords);
+        } else if (event.which === 3) {
+            rightButtonDown = false;
+            if (leftButtonDown) {
+                $mineField.trigger("free-cell", coords);
+            }
         }
     });
 
@@ -95,5 +117,3 @@ MineSweeper.MineFieldView = function($mineField) {
   };
 
 };
-
-

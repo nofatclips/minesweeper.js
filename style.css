@@ -14,7 +14,8 @@ td {
 	height: 20px;
 	text-align: center;
 	border-radius: 3px;
-	background-color: gray
+	background-color: gray;
+    cursor: default;
 }
 
 .hidden-cell:hover {
