@@ -13,7 +13,7 @@ MineSweeper.MineFieldView = function($mineField) {
             if (rightButtonDown) {
                 $mineField.trigger("highlight-cell", coords);
             } else {
-                $(this).addClass("highlight-cell");
+                highlightCell($(this));
             }
         } else if (event.which === 2) { // Middle click
             $mineField.trigger("highlight-cell", coords);
@@ -69,8 +69,11 @@ MineSweeper.MineFieldView = function($mineField) {
 	};
     
     var highlightCellAtPosition = function(row, column) {
-        getCellAtPosition(row, column)
-            .addClass("highlight-cell");
+        highlightCell(getCellAtPosition(row, column));
+    }
+    
+    var highlightCell = function ($cell) {
+        $cell.addClass("highlight-cell");
     }
     
     var alarmCellAtPosition = function(row, column) {
