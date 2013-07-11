@@ -44,7 +44,41 @@ td {
 }
 
 .highlight-cell {
-    opacity: 0.6;
+    opacity: 0.9;
+    -webkit-animation: pressing 0.5s alternate 0s infinite ease-in-out;
+    -moz-animation: pressing 0.5s alternate 0s infinite ease-in-out;
+    -o-animation: pressing 0.5s alternate 0s infinite ease-in-out;
+    animation: pressing 0.5s alternate 0s infinite ease-in-out;
+}
+
+@-webkit-keyframes pressing {
+    0% { 
+        opacity: 0.9;
+        -webkit-transform: scale(1);
+    } 100% { 
+        opacity: 0.6;
+        -webkit-transform: scale(0.75);
+    }
+}
+
+@-moz-keyframes pressing {
+    from {
+        opacity: 0.9;
+        transform: scale(1);
+    } to { 
+        opacity: 0.6;
+        transform: scale(0.75);
+    }
+}
+
+@keyframes pressing {
+    from { 
+        opacity: 0.9;
+        transform: scale(1);
+    } to { 
+        opacity: 0.6;
+        transform: scale(0.75);
+    }
 }
 
 .alarm-cell {
