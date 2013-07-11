@@ -2,22 +2,38 @@ MineSweeper.MineFieldView = function($mineField) {
 
     var leftButtonDown = false;
     var rightButtonDown = false;
+    var animationEnd = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
 
+    // This actions are to be performed even if the event occurred outside the game board
+    $(document).on("mouseup", function(event) {
+        $mineField.find(".highlight-cell").removeClass("highlight-cell");
+        if (event.which === 1) { // Left click
+            leftButtonDown = false;
+        } else if (event.which === 3) { // Right click
+            rightButtonDown = false;
+        }
+    }).on("mousedown", function(event) {
+        if (event.which === 1) { // Left click
+            leftButtonDown = true;
+        } else if (event.which === 3) { // Right click
+            rightButtonDown = true;
+        }
+    });
+    
+    // This actions are to be performed only if the event occurred inside the game board
     $mineField.on("contextmenu",function(e){
         return false;
     }).on("mousedown", "td", function(event) {
         var coords = [$(this).data("row"), $(this).data("col")];
         if (event.which === 1) { // Left click
-            leftButtonDown = true;
             if (rightButtonDown) {
                 $mineField.trigger("highlight-cell", coords);
             } else {
-                $(this).addClass("highlight-cell");
+                highlightCell($(this));
             }
         } else if (event.which === 2) { // Middle click
             $mineField.trigger("highlight-cell", coords);
         } else if (event.which === 3) { // Right click
-            rightButtonDown = true;
             if (leftButtonDown) {
                 $mineField.trigger("highlight-cell", coords);
             } else {
@@ -25,10 +41,8 @@ MineSweeper.MineFieldView = function($mineField) {
             }
         }
     }).on("mouseup", "td", function(event) {
-        $mineField.find(".highlight-cell").removeClass("highlight-cell");
         var coords = [$(this).data("row"), $(this).data("col")];
         if (event.which === 1) { // Left click
-            leftButtonDown = false;
             if (rightButtonDown) {
                 $mineField.trigger("free-cell", coords);
             } else {
@@ -37,7 +51,6 @@ MineSweeper.MineFieldView = function($mineField) {
         } else if (event.which === 2) { // Middle click
             $mineField.trigger("free-cell", coords);
         } else if (event.which === 3) {
-            rightButtonDown = false;
             if (leftButtonDown) {
                 $mineField.trigger("free-cell", coords);
             }
@@ -68,18 +81,18 @@ MineSweeper.MineFieldView = function($mineField) {
 	};
     
     var highlightCellAtPosition = function(row, column) {
-        getCellAtPosition(row, column)
-            .addClass("highlight-cell");
+        highlightCell(getCellAtPosition(row, column));
+    }
+    
+    var highlightCell = function ($cell) {
+        $cell.addClass("highlight-cell");
     }
     
     var alarmCellAtPosition = function(row, column) {
         $cell = getCellAtPosition(row, column);
-        $cell.addClass("alarm-cell")
-            .delay(500)
-            .queue(function() {
-                $cell.removeClass("alarm-cell");
-                $cell.dequeue();
-            });
+        $cell.addClass("alarm-cell").one(animationEnd, function(e) {
+            $cell.removeClass("alarm-cell");
+        });
     }
 
 	var toggleBlockCellAtPosition = function(row, column) {

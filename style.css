@@ -8,6 +8,15 @@ h1 a {
 	text-decoration: none;
 }
 
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 td {
 	border: 1px solid black;
 	width: 18px;
@@ -35,12 +44,75 @@ td {
 }
 
 .highlight-cell {
-    opacity: 0.6;
+    opacity: 0.9;
+    -webkit-animation: pressing 0.5s alternate 0s infinite ease-in-out;
+    -moz-animation: pressing 0.5s alternate 0s infinite ease-in-out;
+    -o-animation: pressing 0.5s alternate 0s infinite ease-in-out;
+    animation: pressing 0.5s alternate 0s infinite ease-in-out;
+}
+
+@-webkit-keyframes pressing {
+    0% { 
+        opacity: 0.9;
+        -webkit-transform: scale(1);
+    } 100% { 
+        opacity: 0.6;
+        -webkit-transform: scale(0.75);
+    }
+}
+
+@-moz-keyframes pressing {
+    from {
+        opacity: 0.9;
+        transform: scale(1);
+    } to { 
+        opacity: 0.6;
+        transform: scale(0.75);
+    }
+}
+
+@keyframes pressing {
+    from { 
+        opacity: 0.9;
+        transform: scale(1);
+    } to { 
+        opacity: 0.6;
+        transform: scale(0.75);
+    }
 }
 
 .alarm-cell {
     color: red;
     font-weight: bold;
+    -webkit-animation: alarming 0.5s alternate 0s 2 ease-in-out;
+    -moz-animation: alarming 0.5s alternate 0s 2 ease-in-out;
+    -o-animation: alarming 0.5s alternate 0s 2 ease-in-out;
+    animation: alarming 0.5s alternate 0s 2 ease-in-out;
+
+}
+
+@-webkit-keyframes alarming {
+    0% { 
+        -webkit-transform: scale(1);
+    } 100% { 
+        -webkit-transform: scale(2) rotate(30deg);
+    }
+}
+
+@-moz-keyframes alarming {
+    from { 
+        transform: scale(1);
+    } to { 
+        transform: scale(2) rotate(30deg);
+    }
+}
+
+@keyframes alarming {
+    from { 
+        transform: scale(1);
+    } to { 
+        transform: scale(2) rotate(30deg);
+    }
 }
 
 #minefield {

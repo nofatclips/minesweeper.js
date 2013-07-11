@@ -1,72 +1,53 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640" />
-
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
-
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
-    <title>Minesweeper.js by nofatclips</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
-    <a id="forkme_banner" href="https://github.com/nofatclips/minesweeper.js">View on GitHub</a>
-    <div class="shell">
 
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>Minesweeper.js</h1>
-            <h2>Mine Sweeper Game</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
-
-      <section id="downloads">
-        <span class="inner">
-          <a href="https://github.com/nofatclips/minesweeper.js/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/nofatclips/minesweeper.js/tarball/master" class="tgz"><em>download</em> .TGZ</a>
-        </span>
-      </section>
-
-
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
-        <h1>
-<a name="minesweeperjs" class="anchor" href="#minesweeperjs"><span class="octicon octicon-link"></span></a>MineSweeper.js</h1>
-
-<p>MineSweeper done in jQuery with an <del>MVVM</del> MVCVM approach.</p>
-<p>Play <a href="demo.html">demo</a>
-      </section>
-
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/nofatclips">nofatclips</a> can be found on <a href="https://github.com/nofatclips/minesweeper.js">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
-      </footer>
-
-    </div>
-
+    <h1><a href="index.html">Minesweeper</a></h1>
     
+    <a href="https://github.com/nofatclips/minesweeper.js/">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+             src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"
+             alt="Fork me on GitHub"
+        >
+    </a>
+    
+    <table class="unselectable">
+      <tbody id="minefield"></tbody>
+    </table>
+	
+	<div id="control-panel">
+		<div class="button-div">
+			<button name="restart" id="restart-button">Restart</button>
+			<button name="reveal" id="reveal-button">Reveal</button>
+			<button name="validate" id="validate-button">Validate</button>
+		</div>
+		<div class="level-select">
+			<label for="level">Difficulty level: 
+				<select name="level" id="level" class="level-selector">
+					<option value="EASY" selected>Easy</option>
+					<option value="INTERMEDIATE">Intermediate</option>
+					<option value="HARD">Hard</option>
+				<select>
+			</label>
+		</div>
+		<div class="display">
+			<span class="display-text"></span>
+		</div>
+	</div>
+
+    <script data-require="jquery@2.0.0" data-semver="2.0.0" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="minesweeper.js"></script>
+    <script src="cell.js"></script>
+    <script src="board.js"></script>
+    <script src="minefield.js"></script>
+    <script src="optionsView.js"></script>
+    <script src="gameController.js"></script>
+  
   </body>
+
 </html>
