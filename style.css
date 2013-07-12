@@ -143,7 +143,13 @@ td {
     }
 }
 
-#minefield {
+.minefield-board {
+    border: 5px solid transparent;
+    position: relative;
+    left: -5px;
+}
+
+.minefield-board tbody{
 	background-color: lightgray;
 }
 
