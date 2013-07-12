@@ -1,20 +1,24 @@
 MineSweeper.MineFieldView = function($mineField) {
 
     var leftButtonDown = false;
+    var middleButtonDown = false;
     var rightButtonDown = false;
     var animationEnd = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
 
     // This actions are to be performed even if the event occurred outside the game board
     $(document).on("mouseup", function(event) {
-        $mineField.find(".highlight-cell").removeClass("highlight-cell");
         if (event.which === 1) { // Left click
             leftButtonDown = false;
+        } else if (event.which === 2) { // Middle click
+            middleButtonDown = false;
         } else if (event.which === 3) { // Right click
             rightButtonDown = false;
         }
     }).on("mousedown", function(event) {
         if (event.which === 1) { // Left click
             leftButtonDown = true;
+        } else if (event.which === 2) { // Middle click
+            middleButtonDown = true;
         } else if (event.which === 3) { // Right click
             rightButtonDown = true;
         }
@@ -27,7 +31,7 @@ MineSweeper.MineFieldView = function($mineField) {
         var coords = [$(this).data("row"), $(this).data("col")];
         if (event.which === 1) { // Left click
             if (rightButtonDown) {
-                $mineField.trigger("highlight-cell", coords);
+                highlightCellsAt(coords);
             } else {
                 highlightCell($(this));
             }
@@ -35,12 +39,13 @@ MineSweeper.MineFieldView = function($mineField) {
             $mineField.trigger("highlight-cell", coords);
         } else if (event.which === 3) { // Right click
             if (leftButtonDown) {
-                $mineField.trigger("highlight-cell", coords);
+                highlightCellsAt(coords);
             } else {
                 $mineField.trigger("block-cell", coords);
             }
         }
     }).on("mouseup", "td", function(event) {
+        unHighlightCells();        
         var coords = [$(this).data("row"), $(this).data("col")];
         if (event.which === 1) { // Left click
             if (rightButtonDown) {
@@ -50,12 +55,30 @@ MineSweeper.MineFieldView = function($mineField) {
             }
         } else if (event.which === 2) { // Middle click
             $mineField.trigger("free-cell", coords);
-        } else if (event.which === 3) {
+        } else if (event.which === 3) { // Right click
             if (leftButtonDown) {
                 $mineField.trigger("free-cell", coords);
             }
         }
+    }).on("mouseout", "td", function(event) {
+        unHighlightCells();
+    }).on("mouseover", "td", function(event) {
+        var coords = [$(this).data("row"), $(this).data("col")];
+        if (leftButtonDown) {
+            if (rightButtonDown) {
+                highlightCellsAt(coords);
+            } else {
+                highlightCell($(this));
+            }
+        } else if (middleButtonDown) {
+            highlightCellsAt(coords);
+        }
     });
+        
+    var highlightCellsAt = function(coords) {
+        unHighlightCells();
+        $mineField.trigger("highlight-cell", coords);
+    }
 
 	var initializeView = function(width, height) {
 		$mineField.empty();
@@ -117,16 +140,19 @@ MineSweeper.MineFieldView = function($mineField) {
 	var getCellAtPosition = function(row, column) {
 		return $(".row-"+row+" .col-"+column);
 	}
-  
-  
-  return {
-    init: initializeView,
-	revealNum: revealNumberOfBombsAround,
-	revealBomb: revealBombInCellAtPosition,
-	hideBombs: hideAllBombs,
-    showAsBlocked: toggleBlockCellAtPosition,
-    highlightCell: highlightCellAtPosition,
-    alarmCell: alarmCellAtPosition
-  };
+    
+    var unHighlightCells = function() {
+        $mineField.find(".highlight-cell").removeClass("highlight-cell");
+    }
+
+    return {
+        init: initializeView,
+        revealNum: revealNumberOfBombsAround,
+        revealBomb: revealBombInCellAtPosition,
+        hideBombs: hideAllBombs,
+        showAsBlocked: toggleBlockCellAtPosition,
+        highlightCell: highlightCellAtPosition,
+        alarmCell: alarmCellAtPosition
+    };
 
 };
