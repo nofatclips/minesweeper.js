@@ -41,6 +41,34 @@ td {
 
 .blocked-cell {
     background-color: green;
+    -webkit-animation: rotating 0.5s alternate 0s 1 ease-in-out;
+    -moz-animation: rotating 0.5s alternate 0s 1 ease-in-out;
+    -o-animation: rotating 0.5s alternate 0s 1 ease-in-out;
+    animation: rotating 0.5s alternate 0s 1 ease-in-out;
+}
+
+@-webkit-keyframes rotating {
+    0% { 
+        -webkit-transform: rotate(0deg);
+    } 100% { 
+        -webkit-transform: rotate(90deg);
+    }
+}
+
+@-moz-keyframes pressing {
+    from { 
+        transform: rotate(0deg);
+    } to { 
+        transform: rotate(90deg);
+    }
+}
+
+@keyframes rotating {
+    from { 
+        transform: rotate(0deg);
+    } to { 
+        transform: rotate(90deg);
+    }
 }
 
 .highlight-cell {
@@ -115,7 +143,13 @@ td {
     }
 }
 
-#minefield {
+.minefield-board {
+    border: 5px solid transparent;
+    position: relative;
+    left: -5px;
+}
+
+.minefield-board tbody{
 	background-color: lightgray;
 }
 
