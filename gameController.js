@@ -1,4 +1,4 @@
-MineSweeper.ViewModel = function() {
+MineSweeper.GameController = function() {
 	var width, height, mines;
 	var currentBoard;
 	var board = MineSweeper.Board(width, height, mines);
