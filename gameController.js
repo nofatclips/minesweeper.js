@@ -1,4 +1,4 @@
-MineSweeper.ViewModel = function() {
+MineSweeper.GameController = function() {
 	var width, height, mines;
 	var currentBoard;
 	var board = MineSweeper.Board(width, height, mines);
@@ -16,6 +16,8 @@ MineSweeper.ViewModel = function() {
         freeCell(x,y);
     }).on("highlight-cell", function(event, x, y) {
         highlightCell(x,y);
+    }).on("highlight-surrounding", function(event, x, y) {
+        highlightSurroundingCells(x,y);
     });
   
 	$panel.on("restart", function() {
@@ -35,10 +37,16 @@ MineSweeper.ViewModel = function() {
 		mines = params.bombs;
 		return MineSweeper.Board(width, height, mines);
 	};
+
+    var createNewPuzzle = function() {
+        board.init();
+        hideBombs();
+    }
 	
 	var init = function(level) {
 		currentBoard = controlPanel.level();
-		board = getBoard(currentBoard).init();
+		board = getBoard(currentBoard);
+        createNewPuzzle();
 		mineField.init(width, height);
 		gameInProgress = true;
 		revealed = false;
@@ -97,11 +105,8 @@ MineSweeper.ViewModel = function() {
         if (!gameInProgress || isBlocked(row, column)) return;
         if (!board.hasBomb(row, column)) {
             revealNum(row, column);
-            console.log(board.hiddenCells() + " . " + board.numBombs);
             if (board.hiddenCells() === board.numBombs) {
                 endGame();
-            } else {
-                console.log("no");
             }
             return;
 		}
@@ -110,7 +115,7 @@ MineSweeper.ViewModel = function() {
             return gameOver();
         }
         // this is the first move: then it's your lucky day.
-        init();
+        createNewPuzzle();
         checkCell(row, column); // Theoretically, this could go on forever
     }
     
@@ -135,6 +140,10 @@ MineSweeper.ViewModel = function() {
     }
 
     var highlightCell = function(row, column) {
+        if (!board.isExposed(row, column)) mineField.highlightCell(row, column);
+    }
+    
+    var highlightSurroundingCells = function(row, column) {
         board.cellsAround(row, column).filter(function(cell) {
             return !(cell.isExposed() || cell.isBlocked());
         }).forEach(function(cell) {

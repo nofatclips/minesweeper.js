@@ -144,9 +144,10 @@ td {
 }
 
 .minefield-board {
-    border: 5px solid transparent;
+    border: 20px solid transparent;
     position: relative;
-    left: -5px;
+    left: -20px;
+    top: -20px;
 }
 
 .minefield-board tbody{
