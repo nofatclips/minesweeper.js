@@ -19,8 +19,7 @@ MineSweeper.MineFieldView = function($mineField) {
 
     function asyncMouseDown(event) {
         mouse.waitFor(event, function() {
-            var that = event.target;
-            var coords = [$(that).data("row"), $(that).data("col")];
+            var coords = [$(this).data("row"), $(this).data("col")];
             if (mouse.leftAndRightDown() || mouse.middleDown()) {
                 highlightCellsAt(coords);
             } else if (mouse.leftDown()) {
@@ -34,8 +33,7 @@ MineSweeper.MineFieldView = function($mineField) {
     function asyncMouseUp(event) {
         unHighlightCells();
         mouse.waitFor(event, function() {
-            var that = event.target;
-            var coords = [$(that).data("row"), $(that).data("col")];
+            var coords = [$(this).data("row"), $(this).data("col")];
             if (mouse.leftAndRightDown() || mouse.middleDown()) {
                 $mineField.trigger("free-cell", coords);
             } else if (mouse.leftDown()) {

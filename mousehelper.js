@@ -32,7 +32,7 @@ MineSweeper.MouseHelper = function($scope) {
     var runAsyncCallbacksForEvent = function(event) {
         for (timeStamp in callbacks) {
             if (timeStamp<=event.timeStamp) {
-                callbacks[timeStamp](event);
+                callbacks[timeStamp].call(event.target, event);
                 delete callbacks[timeStamp];
             }
         }
