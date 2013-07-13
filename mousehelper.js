@@ -3,8 +3,10 @@ MineSweeper.MouseHelper = function($scope) {
     var leftButtonDown = false;
     var middleButtonDown = false;
     var rightButtonDown = false;
+    var callbacks = {};
 
     $scope.on("mouseup", function(event) {
+        runAsyncCallbacksForEvent(event);
         if (event.which === 1) {
             leftButtonDown = false;
         } else if (event.which === 2) {
@@ -20,7 +22,21 @@ MineSweeper.MouseHelper = function($scope) {
         } else if (event.which === 3) {
             rightButtonDown = true;
         }
+        runAsyncCallbacksForEvent(event);
     });
+    
+    var addAsyncCallbackForEvent = function(event, callback) {
+        callbacks[event.timeStamp] = callback;
+    }
+    
+    var runAsyncCallbacksForEvent = function(event) {
+        for (timeStamp in callbacks) {
+            if (timeStamp<=event.timeStamp) {
+                callbacks[timeStamp](event);
+                delete callbacks[timeStamp];
+            }
+        }
+    }
     
     var isLeftButtonDown = function() {
         return leftButtonDown;
@@ -42,7 +58,8 @@ MineSweeper.MouseHelper = function($scope) {
         leftDown: isLeftButtonDown,
         rightDown: isRightButtonDown,
         middleDown: isMiddleButtonDown,
-        leftAndRightDown: areLeftAndRightButtonDown
+        leftAndRightDown: areLeftAndRightButtonDown,
+        waitFor: addAsyncCallbackForEvent
     }
 
 }

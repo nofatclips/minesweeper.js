@@ -3,57 +3,47 @@ MineSweeper.MineFieldView = function($mineField) {
     var animationEnd = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
     var mouse = MineSweeper.MouseHelper($(document));
     
-    // This actions are to be performed only if the event occurred inside the game board
-    $mineField.on("contextmenu",function(e){
+    $mineField.on("contextmenu", function(e){
         return false;
-    }).on("mousedown", "td", function(event) {
+    }).on("mousedown", "td", asyncMouseDown
+     ).on("mouseup",   "td", asyncMouseUp
+     ).on("mouseout",  "td", unHighlightCells
+     ).on("mouseover", "td", function(event) {
         var coords = [$(this).data("row"), $(this).data("col")];
-        if (event.which === 1) { // Left click
-            if (mouse.rightDown()) {
-                highlightCellsAt(coords);
-            } else {
-                highlightCell($(this));
-            }
-        } else if (event.which === 2) { // Middle click
-            $mineField.trigger("highlight-cell", coords);
-        } else if (event.which === 3) { // Right click
-            if (mouse.leftDown()) {
-                highlightCellsAt(coords);
-            } else {
-                $mineField.trigger("block-cell", coords);
-            }
-        }
-    }).on("mouseup", "td", function(event) {
-        unHighlightCells();        
-        var coords = [$(this).data("row"), $(this).data("col")];
-        if (event.which === 1) { // Left click
-            if (mouse.rightDown()) {
-                $mineField.trigger("free-cell", coords);
-            } else {
-                $mineField.trigger("reveal-cell", coords);
-            }
-        } else if (event.which === 2) { // Middle click
-            $mineField.trigger("free-cell", coords);
-        } else if (event.which === 3) { // Right click
-            if (mouse.leftDown()) {
-                $mineField.trigger("free-cell", coords);
-            }
-        }
-    }).on("mouseout", "td", function(event) {
-        unHighlightCells();
-    }).on("mouseover", "td", function(event) {
-        var coords = [$(this).data("row"), $(this).data("col")];
-        if (mouse.leftDown()) {
-            if (rightButtonDown) {
-                highlightCellsAt(coords);
-            } else {
-                highlightCell($(this));
-            }
-        } else if (mouse.middleDown()) {
+        if (mouse.leftAndRightDown() || mouse.middleDown()) {
             highlightCellsAt(coords);
+        } else if (mouse.leftDown()) {
+            highlightCell($(this));
         }
     });
-        
+
+    function asyncMouseDown(event) {
+        mouse.waitFor(event, function() {
+            var that = event.target;
+            var coords = [$(that).data("row"), $(that).data("col")];
+            if (mouse.leftAndRightDown() || mouse.middleDown()) {
+                highlightCellsAt(coords);
+            } else if (mouse.leftDown()) {
+                highlightCell($(that));
+            } else if (mouse.rightDown()) {
+                $mineField.trigger("block-cell", coords);
+            }
+        });
+    }
+
+    function asyncMouseUp(event) {
+        unHighlightCells();
+        mouse.waitFor(event, function() {
+            var that = event.target;
+            var coords = [$(that).data("row"), $(that).data("col")];
+            if (mouse.leftAndRightDown() || mouse.middleDown()) {
+                $mineField.trigger("free-cell", coords);
+            } else if (mouse.leftDown()) {
+                $mineField.trigger("reveal-cell", coords);
+            }
+        });
+    }
+    
     var highlightCellsAt = function(coords) {
         unHighlightCells();
         $mineField.trigger("highlight-cell", coords);
@@ -120,7 +110,7 @@ MineSweeper.MineFieldView = function($mineField) {
 		return $(".row-"+row+" .col-"+column);
 	}
     
-    var unHighlightCells = function() {
+    function unHighlightCells() {
         $mineField.find(".highlight-cell").removeClass("highlight-cell");
     }
 
