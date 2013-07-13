@@ -35,10 +35,16 @@ MineSweeper.ViewModel = function() {
 		mines = params.bombs;
 		return MineSweeper.Board(width, height, mines);
 	};
+
+    var createNewPuzzle = function() {
+        board.init();
+        hideBombs();
+    }
 	
 	var init = function(level) {
 		currentBoard = controlPanel.level();
-		board = getBoard(currentBoard).init();
+		board = getBoard(currentBoard);
+        createNewPuzzle();
 		mineField.init(width, height);
 		gameInProgress = true;
 		revealed = false;
@@ -107,7 +113,7 @@ MineSweeper.ViewModel = function() {
             return gameOver();
         }
         // this is the first move: then it's your lucky day.
-        init();
+        createNewPuzzle();
         checkCell(row, column); // Theoretically, this could go on forever
     }
     
