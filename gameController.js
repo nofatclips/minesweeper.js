@@ -16,6 +16,8 @@ MineSweeper.ViewModel = function() {
         freeCell(x,y);
     }).on("highlight-cell", function(event, x, y) {
         highlightCell(x,y);
+    }).on("highlight-surrounding", function(event, x, y) {
+        highlightSurroundingCells(x,y);
     });
   
 	$panel.on("restart", function() {
@@ -138,6 +140,10 @@ MineSweeper.ViewModel = function() {
     }
 
     var highlightCell = function(row, column) {
+        if (!board.isExposed(row, column)) mineField.highlightCell(row, column);
+    }
+    
+    var highlightSurroundingCells = function(row, column) {
         board.cellsAround(row, column).filter(function(cell) {
             return !(cell.isExposed() || cell.isBlocked());
         }).forEach(function(cell) {

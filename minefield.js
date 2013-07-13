@@ -24,7 +24,7 @@ MineSweeper.MineFieldView = function($mineField) {
             if (mouse.leftAndRightDown() || mouse.middleDown()) {
                 highlightCellsAt(coords);
             } else if (mouse.leftDown()) {
-                highlightCell($(that));
+                $mineField.trigger("highlight-cell", coords);
             } else if (mouse.rightDown()) {
                 $mineField.trigger("block-cell", coords);
             }
@@ -46,7 +46,7 @@ MineSweeper.MineFieldView = function($mineField) {
     
     var highlightCellsAt = function(coords) {
         unHighlightCells();
-        $mineField.trigger("highlight-cell", coords);
+        $mineField.trigger("highlight-surrounding", coords);
     }
 
 	var initializeView = function(width, height) {
