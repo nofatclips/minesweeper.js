@@ -19,6 +19,7 @@ MineSweeper.MineFieldView = function($mineField) {
 
     function asyncMouseDown(event) {
         mouse.waitFor(event, function() {
+            console.log(event);
             var coords = [$(this).data("row"), $(this).data("col")];
             if (mouse.leftAndRightDown() || mouse.middleDown()) {
                 highlightCellsAt(coords);
@@ -62,7 +63,8 @@ MineSweeper.MineFieldView = function($mineField) {
 	var revealBombInCellAtPosition = function(row, column) {
 		getCellAtPosition(row, column)
 			.removeClass("hidden-cell")
-			.addClass("bomb-cell");
+			.addClass("bomb-cell")
+            .append($("<i>").addClass("icon-bug"));
 	};
     
     var highlightCellAtPosition = function(row, column) {
@@ -97,6 +99,7 @@ MineSweeper.MineFieldView = function($mineField) {
 		$(".bomb-cell")
 			.removeClass("bomb-cell")
 			.addClass("hidden-cell");
+        $(".icon-bug").remove();
 	}
 	
 	var getCellAtPosition = function(row, column) {

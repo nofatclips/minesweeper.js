@@ -173,3 +173,7 @@ button:hover {
 .display-text{
 	background-color: lightgray;
 }
+
+.bomb-cell i {
+    background-color: transparent;
+}
