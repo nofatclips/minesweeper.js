@@ -51,16 +51,11 @@ MineSweeper.MineFieldView = function($mineField) {
 
 	var initializeView = function(width, height) {
 		$mineField.empty();
-		var $tr, $td;
+		var $tr;
 		for (var i=0; i<height; i++) {
 			$tr = $("<tr>").addClass("row-" + i).appendTo($mineField);
 			for (var j=0; j<width; j++) {
-				$td = $("<td>")
-					.addClass("col-" + j)
-					.addClass("hidden-cell")
-					.data("row", i)
-					.data("col", j)
-					.appendTo($tr);
+				$("<td>").addClass("hidden-cell col-" + j).data({"row": i, "col": j}).appendTo($tr);
 			}
 		}
 		return this; 
