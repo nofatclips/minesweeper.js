@@ -13,7 +13,7 @@ MineSweeper.MineFieldView = function($mineField) {
         if (mouse.leftAndRightDown() || mouse.middleDown()) {
             highlightCellsAt(coords);
         } else if (mouse.leftDown()) {
-            highlightCell($(this));
+            $mineField.trigger("highlight-cell", coords);
         }
     });
 
