@@ -120,7 +120,7 @@ MineSweeper.GameController = function() {
     }
     
     var blockCell = function(row, column) {
-        if (!gameInProgress || isExposed(row, column)) return;
+        if (!gameInProgress || isExposed(row, column) || !board.atLeastOneCell()) return;
         board.toggleBlock(row, column);
         mineField.showAsBlocked(row, column);
     }
