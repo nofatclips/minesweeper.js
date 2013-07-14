@@ -19,8 +19,7 @@ MineSweeper.MineFieldView = function($mineField) {
 
     function asyncMouseDown(event) {
         mouse.waitFor(event, function() {
-            var that = event.target;
-            var coords = [$(that).data("row"), $(that).data("col")];
+            var coords = [$(this).data("row"), $(this).data("col")];
             if (mouse.leftAndRightDown() || mouse.middleDown()) {
                 highlightCellsAt(coords);
             } else if (mouse.leftDown()) {
@@ -34,8 +33,7 @@ MineSweeper.MineFieldView = function($mineField) {
     function asyncMouseUp(event) {
         unHighlightCells();
         mouse.waitFor(event, function() {
-            var that = event.target;
-            var coords = [$(that).data("row"), $(that).data("col")];
+            var coords = [$(this).data("row"), $(this).data("col")];
             if (mouse.leftAndRightDown() || mouse.middleDown()) {
                 $mineField.trigger("free-cell", coords);
             } else if (mouse.leftDown()) {
@@ -51,11 +49,12 @@ MineSweeper.MineFieldView = function($mineField) {
 
 	var initializeView = function(width, height) {
 		$mineField.empty();
-		var $tr;
+		var $tr, $td;
 		for (var i=0; i<height; i++) {
 			$tr = $("<tr>").addClass("row-" + i).appendTo($mineField);
 			for (var j=0; j<width; j++) {
-				$("<td>").addClass("hidden-cell col-" + j).data({"row": i, "col": j}).appendTo($tr);
+				$td = $("<td>").addClass("hidden-cell col-" + j).data({"row": i, "col": j}).appendTo($tr);
+                $("<i>").addClass("bug-icon-cell").appendTo($td);
 			}
 		}
 		return this; 
@@ -64,7 +63,9 @@ MineSweeper.MineFieldView = function($mineField) {
 	var revealBombInCellAtPosition = function(row, column) {
 		getCellAtPosition(row, column)
 			.removeClass("hidden-cell")
-			.addClass("bomb-cell");
+			.addClass("bomb-cell")
+            .find(".bug-icon-cell")
+            .addClass("icon-bug");
 	};
     
     var highlightCellAtPosition = function(row, column) {
@@ -97,8 +98,10 @@ MineSweeper.MineFieldView = function($mineField) {
 	
 	var hideAllBombs = function() {
 		$(".bomb-cell")
-			.removeClass("bomb-cell")
-			.addClass("hidden-cell");
+            .removeClass("bomb-cell")
+			.addClass("hidden-cell")
+            .children()
+            .removeClass("icon-bug");
 	}
 	
 	var getCellAtPosition = function(row, column) {

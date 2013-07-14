@@ -50,24 +50,30 @@ td {
 @-webkit-keyframes rotating {
     0% { 
         -webkit-transform: rotate(0deg);
-    } 100% { 
+    } 75% { 
         -webkit-transform: rotate(90deg);
+    } 100% {
+        -webkit-transform: rotate(0deg);
     }
 }
 
 @-moz-keyframes pressing {
-    from { 
-        transform: rotate(0deg);
-    } to { 
-        transform: rotate(90deg);
+    0% { 
+        -moz-transform: rotate(0deg);
+    } 75% { 
+        -moz-transform: rotate(90deg);
+    } 100% {
+        -moz-transform: rotate(0deg);
     }
 }
 
 @keyframes rotating {
-    from { 
+    0% { 
         transform: rotate(0deg);
-    } to { 
+    } 75% { 
         transform: rotate(90deg);
+    } 100% {
+        transform: rotate(0deg);
     }
 }
 
@@ -172,4 +178,8 @@ button:hover {
 
 .display-text{
 	background-color: lightgray;
+}
+
+.bug-icon-cell {
+    background-color: transparent;
 }
