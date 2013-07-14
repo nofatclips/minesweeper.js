@@ -4,6 +4,10 @@
 	background-color: white;
 }
 
+h1 {
+    font-family: FontAwesome, serif;
+}
+
 h1 a {
 	text-decoration: none;
 }

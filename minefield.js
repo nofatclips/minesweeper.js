@@ -77,16 +77,16 @@ MineSweeper.MineFieldView = function($mineField) {
     }
     
     var alarmCellAtPosition = function(row, column) {
-        $cell = getCellAtPosition(row, column);
+        var $cell = getCellAtPosition(row, column);
         $cell.addClass("alarm-cell").one(animationEnd, function(e) {
             $cell.removeClass("alarm-cell");
         });
     }
 
 	var toggleBlockCellAtPosition = function(row, column) {
-		getCellAtPosition(row, column)
-			.removeClass("hidden-cell")
-			.toggleClass("blocked-cell");
+		$cell = getCellAtPosition(row, column).removeClass("hidden-cell");
+        $cell.find(".bug-icon-cell").toggleClass("icon-thumbs-up-alt");
+		$cell.toggleClass("blocked-cell")
 	};
 	
 	var revealNumberOfBombsAround = function(row, column, num) {
