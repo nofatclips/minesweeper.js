@@ -1,7 +1,7 @@
-MineSweeper.js
+Bug Sweeper
 =============
 
-MineSweeper done in jQuery with a MVCVM approach.
+A MineSweeper clone done in JavaScript with jQuery and a MVCVM approach.
 
 Play [demo](http://nofatclips.github.io/minesweeper.js/).
 
