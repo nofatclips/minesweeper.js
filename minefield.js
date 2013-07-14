@@ -84,9 +84,9 @@ MineSweeper.MineFieldView = function($mineField) {
     }
 
 	var toggleBlockCellAtPosition = function(row, column) {
-		getCellAtPosition(row, column)
-			.removeClass("hidden-cell")
-			.toggleClass("blocked-cell");
+		$cell = getCellAtPosition(row, column).removeClass("hidden-cell");
+        $cell.find(".bug-icon-cell").toggleClass("icon-thumbs-up-alt");
+		$cell.toggleClass("blocked-cell")
 	};
 	
 	var revealNumberOfBombsAround = function(row, column, num) {
