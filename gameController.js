@@ -5,7 +5,7 @@ MineSweeper.GameController = function() {
 	var $scope = $(MineSweeper.SCOPE);
 	var mineField = MineSweeper.MineFieldView($scope);
 	var $panel = $(MineSweeper.PANEL);
-	var controlPanel = MineSweeper.ControlPanelView($panel);
+	var controlPanel = MineSweeper.ControlPanelView($panel).init();
 	var gameInProgress, revealed;
   
 	$scope.on("reveal-cell", function(event, x, y) {		
@@ -31,7 +31,7 @@ MineSweeper.GameController = function() {
 	});
 
 	var getBoard = function(params) {
-		var params = MineSweeper[params] || params || MineSweeper[MineSweeper.DEFAULT];
+		var params = MineSweeper.LEVELS[params] || params || MineSweeper.LEVELS[MineSweeper.DEFAULT];
 		width = params.width;
 		height = params.height;
 		mines = params.bombs;

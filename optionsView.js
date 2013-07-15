@@ -16,7 +16,15 @@ MineSweeper.ControlPanelView = function($panel) {
 	$level.change(function(e) {
 		$panel.trigger("level", [$(this).val()]);
 	});
-	
+
+	var initializeView = function() {
+		$level.empty();
+		for (level in MineSweeper.LEVELS) {
+            $("<option>").attr("value", level).text(MineSweeper.LEVELS[level].name).appendTo($level);
+		}
+        return this;
+	};
+
 	var displayGameFailed = function() {
 		$display.text("BOOM!!! Game Over!");
 	}
@@ -34,6 +42,7 @@ MineSweeper.ControlPanelView = function($panel) {
 	}
 	
 	return {
+        init: initializeView,
 		youLose: displayGameFailed,
 		youWin: displayGameSuccessful,
 		inProgress: displayGameInProgress,
