@@ -4,6 +4,7 @@ MineSweeper.MouseHelper = function($scope) {
     var middleButtonDown = false;
     var rightButtonDown = false;
     var callbacks = {};
+    var isFirefox = typeof InstallTrigger !== 'undefined';
 
     $scope.on("mouseup", function(event) {
         runAsyncCallbacksForEvent(event);
@@ -19,6 +20,7 @@ MineSweeper.MouseHelper = function($scope) {
             leftButtonDown = true;
         } else if (event.which === 2) {
             middleButtonDown = true;
+            if (isFirefox) event.preventDefault(); // Workaround for Firefox autoscrolling
         } else if (event.which === 3) {
             rightButtonDown = true;
         }
