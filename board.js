@@ -26,6 +26,9 @@ MineSweeper.Board = function(width, height, bombs) {
         cellsNotContainingBomb.push(boardCells[i][j]);
       }
     }
+    cellsNotContainingBomb.forEach(function (cell) {
+        cell.setSurroundingCells(getSurroundingCells(cell.x, cell.y));
+    });
     atLeastOneCellRevealed = false;
     countBlockedCells = 0;
     return this;
@@ -44,10 +47,6 @@ MineSweeper.Board = function(width, height, bombs) {
     cell.putBomb();
     cellsContainingBomb.push(cell);
     cellsNotContainingBomb.splice(cellsNotContainingBomb.indexOf(cell), 1);
-    var surroundingCells = getSurroundingCells(cell.x, cell.y);
-    for (var i=0, l=surroundingCells.length; i<l; i++) {
-      surroundingCells[i].incBombNum();
-    }
   };
   
   var getAllBombs = function() {

@@ -2,7 +2,7 @@ MineSweeper.Cell = function(rowIndex, columnIndex) {
   
   var exposed = false;
   var hidesSomeBomb = false;
-  var surroundingBombs = 0;
+  var surroundingCells = undefined;
   var blocked = false;
   
   var exposeCell = function() {
@@ -37,19 +37,16 @@ MineSweeper.Cell = function(rowIndex, columnIndex) {
     return hidesSomeBomb;
   };
   
-  var setNumberOfSurroundingBombs = function(bombs) {
-    surroundingBombs = bombs;
-    return this;
-  };
+    var setListOfSurroundingCells = function(cells) {
+        surroundingCells = cells;
+    };
   
-  var getNumberOfSurroundingBombs = function() {
-    return surroundingBombs;
-  };
+    var getNumberOfSurroundingBombs = function() {
+        return surroundingCells.reduce(function (bombs, cell) {
+            return (cell.hasBomb()) ? (bombs+1) : bombs;
+        }, 0)
+    };
 
-  var increaseNumberOfSurroundingBombs = function() {
-    setNumberOfSurroundingBombs(getNumberOfSurroundingBombs() + 1);
-  };
-  
   var toggleBlockingOnThisCell = function() {
     blocked = !blocked;
   }
@@ -65,8 +62,8 @@ MineSweeper.Cell = function(rowIndex, columnIndex) {
     hide: hideCell,
     isExposed: isCellExposed,
 	isHidden: isCellHidden,
+    setSurroundingCells: setListOfSurroundingCells,
     getBombNum: getNumberOfSurroundingBombs,
-    incBombNum: increaseNumberOfSurroundingBombs,
     hasBomb: isBombHiddenHere,
     putBomb: hideBombInThisCell,
     removeBomb: removeBombFromThisCell,
