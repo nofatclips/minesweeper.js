@@ -2,6 +2,7 @@ MineSweeper.MineFieldView = function($mineField) {
 
     var animationEnd = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
     var mouse = MineSweeper.MouseHelper($(document));
+    $bombNum = $("#bombs-left");
     
     $mineField.on("contextmenu", function(e){
         return false;
@@ -111,6 +112,10 @@ MineSweeper.MineFieldView = function($mineField) {
     function unHighlightCells() {
         $mineField.find(".highlight-cell").removeClass("highlight-cell");
     }
+    
+    var updateInGameStatistics = function(stats) {
+        if (stats.remainingBombs) $bombNum.text(stats.remainingBombs);
+    }
 
     return {
         init: initializeView,
@@ -119,7 +124,8 @@ MineSweeper.MineFieldView = function($mineField) {
         hideBombs: hideAllBombs,
         showAsBlocked: toggleBlockCellAtPosition,
         highlightCell: highlightCellAtPosition,
-        alarmCell: alarmCellAtPosition
+        alarmCell: alarmCellAtPosition,
+        updateStats: updateInGameStatistics
     };
 
 };

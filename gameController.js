@@ -1,7 +1,7 @@
 MineSweeper.GameController = function() {
 	var width, height, mines;
 	var currentBoard;
-	var board = MineSweeper.Board(width, height, mines);
+	var board = null; //MineSweeper.Board(width, height, mines);
 	var $scope = $(MineSweeper.SCOPE);
 	var mineField = MineSweeper.MineFieldView($scope);
 	var $panel = $(MineSweeper.PANEL);
@@ -51,6 +51,7 @@ MineSweeper.GameController = function() {
 		gameInProgress = true;
 		revealed = false;
 		controlPanel.inProgress();
+        updateStats();
 	};
 	
 	var validation = function() {
@@ -123,6 +124,7 @@ MineSweeper.GameController = function() {
         if (!gameInProgress || isExposed(row, column) || !board.atLeastOneCell()) return;
         board.toggleBlock(row, column);
         mineField.showAsBlocked(row, column);
+        updateStats();
     }
     
     var freeCell = function(row, column) {
@@ -157,6 +159,13 @@ MineSweeper.GameController = function() {
     
     var isExposed = function(row, column) {
         return board.isExposed(row, column);
+    }
+    
+    var updateStats = function() {
+        var stats = {
+            remainingBombs: mines - board.blockedCells()
+        };
+        mineField.updateStats(stats);
     }
   
     return {
